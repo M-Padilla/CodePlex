@@ -1,4 +1,4 @@
-#3/Apr/2020
+#Challenge for 3/Apr/2020
 #Let's start with a quick and easy challenge few of you might already have done.
 #It's a common question for job interviews and it's called fizzbuzz
 #Write a programm that gets an integer input. 
@@ -7,12 +7,12 @@
 #If it's a muliple of 3 and 5 the output should be fizzbuzz. 
 #Every other input stays the same.
 
-numero = int(input('Ingrese el número: '))
-if numero%3 == 0 and numero%5 == 0: 
+number = int(input('Enter the number: '))
+if number%3 == 0 and number%5 == 0: 
   print('fizzbuzz') 
-elif numero%3 == 0:
+elif number%3 == 0:
   print('fizz') 
-elif numero%5 == 0:
+elif number%5 == 0:
   print('buzz')
 else:
-  print(numero)
+  print(number)
