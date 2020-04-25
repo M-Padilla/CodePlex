@@ -1,0 +1,74 @@
+# Challenge for 5/Apr/2020
+#Shoutout to Dathmar for providing ideas where to start from
+
+
+import re
+
+def email_check(email_address):
+    regex="^[^\W_]([+\.-]?[^\W_])*@[^\W_]([\.-]?[^\W_])*(\.[^\W_]{2,3})+$"
+    if(re.search(regex, email_address)):  
+        return True   
+    else:  
+        return False
+
+###About the regex of the above function...
+## E-MAIL ID CHECKER:
+# ^[^\W_] checks the start of the ID, not allowing the first character to be an underscore or distinct from A-Z, a-z o 0-9.
+# ([+\.-]?[^\W_])* checks if there are suffixes in the ID using a capturing group. If these suffixes do exist, then they must begin by +, . or -, followed by characters other than an underscore or distinct from A-Z, a-z or 0-9.
+##DOMAIN CHECKER
+# @[^\W_] checks for the @ symbol which must be followed by the domain, composed by characters other than an underscore or distinct from A-Z, a-z or 0-9.
+##SUBDOMAIN/DOMAIN CHECKER
+# ([\.-]?[^\W_])* checks if there are subdomains (appended by the .) or if the domain has a hyphen (-). This detects cases such as name@domain.subdomain.com or name@domain-one.com. If any exist then, after the dot or hyphen, these domain/subdomain cannot contain characters other than an underscore or distinct from A-Z, a-z or 0-9.
+## COUNTRY/ORGANIZATIONAL DOMAIN CHECKER
+# (\.[^\W_]{2,3})+$ checks of the country/organizational domain (.com, .edu., .org, .jp. co), which can have an extension of 2-3 characters in the range of A-Z, a-z or 0-9.
+
+####This doesn't take into account the usual domains and subdomains, but with further work can be adapted to do so.
+
+
+###Emails to be checked:
+
+emails = ['email@example.com', 
+    'firstname.lastname@example.com', 
+    'email@subdomain.example.com', 
+    'firstname+lastname@example.com', 
+    'email@123.123.123.123', 
+    'email@[123.123.123.123]', 
+    '"email"@example.com', 
+    '1234567890@example.com', 
+    'email@example-one.com', 
+    '___@example.com', 
+    'email@example.name', 
+    'email@example.museum', 
+    'email@example.co.jp', 
+    'firstname-lastname@example.com', 
+    'much."more\ unusual"@example.com', 
+    'very.unusual."@".unusual.com@example.com', 
+    'very."(),:;<>[]".VERY."very@\\ "very".unusual@strange.example.com', 
+    'plainaddress', 
+    '#@%^%#$@#$@#.com', 
+    '@example.com', 
+    'Joe Smith <email@example.com>', 
+    'email.example.com', 
+    'email@example@example.com', 
+    '.email@example.com', 
+    'email.@example.com', 
+    'email..email@example.com', 
+    'あいうえお@example.com', 
+    'email@example.com (Joe Smith)', 
+    'email@example', 
+    'email@-example.com', 
+    'email@example.web', 
+    'email@111.222.333.44444', 
+    'email@example..com', 
+    'Abc..123@example.com', 
+    '"(),:;<>[]@example.com', 
+    'just"not"right@example.com', 
+    'this\ is"really"not\\allowed@example.com']
+
+correct_emails=[]
+
+for i in range(len(emails)):
+    if email_check(emails[i])==True:
+        correct_emails.append(emails[i])
+
+print(correct_emails)
