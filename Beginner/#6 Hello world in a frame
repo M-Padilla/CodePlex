@@ -1,0 +1,22 @@
+#Challenge for 08/Apr/2020
+#Write a function that takes a list of strings an prints them, one per line, in a rectangular frame.
+#For example the list ["Hello", "World", "in", "a", "frame"] gets printed as:
+# *********
+# * Hello *
+# * World *
+# * in    *
+# * a     *
+# * frame *
+# *********
+
+
+strings=input('Enter the strings separated by spaces: ').split()
+
+strings_maxlength=len(max(strings, key=len))
+
+print((strings_maxlength+4)*'*')
+
+for line in range(len(strings)):
+    print('* ',strings[line],' '*(strings_maxlength-len(strings[line])),' *',sep='')
+
+print((strings_maxlength+4)*'*')
