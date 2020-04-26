@@ -1,0 +1,17 @@
+# Challenge for 07/Apr/2020
+# Write a program to decide wether a sentence is a pangram or not. A pangram contains every letter of the alphabet
+
+import string, re
+
+sentence=input('Enter the sentence: ')
+#The following line gets the input, transforms into lowercase and removes spaces, then use a regex to find only letters and removes duplicates by turning into set. Then it turns back into a 
+letters_in_sentence=list(set(re.findall(r'[a-z]', sentence.lower().replace(" ", ""))))
+letters_in_sentence.sort() #Sorts the letters in sentence in alphabetical order, in order to make easier the comparison
+
+#Creates a list with all alphabet letters in lowercase. The letters of the sentence are compared with the ones in this list.
+alphabet=list(string.ascii_lowercase)
+
+if letters_in_sentence==alphabet:
+    print('It is a pangram!')
+else:
+    print('It is not a pangram.')
