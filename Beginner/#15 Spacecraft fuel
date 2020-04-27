@@ -1,0 +1,41 @@
+#Challenge for 25/Apr/2020
+'''
+Fuel required to launch a given module is based on its mass. Specifically, to find the fuel required for a module, take its mass, divide by three, round down, and subtract 2.
+
+For example:
+
+For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
+For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
+For a mass of 1969, the fuel required is 654.
+For a mass of 100756, the fuel required is 33583.
+
+The Fuel Counter-Upper needs to know the total fuel requirement. To find it, individually calculate the fuel needed for the mass of each module (your puzzle input), then add together all the fuel values.
+
+What is the sum of the fuel requirements for all of the modules on your spacecraft?
+'''
+
+def multiline_input():
+  #Function to get multiline entry.
+    entry = [] #Creates an empty vector
+    while True:
+        line = input() #Gets multiline input
+        if line: #If the line has a value (is not blank), then add it to the vector
+            entry.append(line) 
+        else: #If the line is blank, break the loop
+            break
+    return entry
+
+def fuel_estimator(mass):
+    return (mass//3)-2
+
+
+print('Enter the weights of the modules. Press enter twice when you\'re done')
+modules=multiline_input()
+modules=[int(x) for x in modules] #List comprehension for conversion to integer
+
+fuel_requirement=[]
+
+for module in modules:
+    fuel_requirement.append(fuel_estimator(module))
+ 
+print('Total fuel requirement for the spacecraft is',f"{sum(fuel_requirement):,}")
