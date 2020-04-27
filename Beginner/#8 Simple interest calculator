@@ -1,0 +1,13 @@
+#Challenge for 13/Apr/2020
+#Create a program to calculate simple interest on a price
+#Take principal (the price), Rate of Interest and the time period in years as float inputs
+#The interest will be equal to the product of the inputs divided by 100. Then print the interest amount and the total amount
+
+
+principal, interest_rate, time= float(input('Enter principal: ')), float(input('Rate of interest in %: ')), float(input('Enter time in years: '))
+
+interest_ammount= principal * (interest_rate/100) * time
+total_ammount= principal * (1+(interest_rate/100)* time)
+
+print('The ammount corresponding to interest is:', "${:,.2f}".format(interest_ammount))
+print('The total ammount is:', "${:,.2f}".format(total_ammount))
