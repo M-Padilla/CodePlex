@@ -7,14 +7,13 @@
 #For example, 1997 is not a leap year, but 1996 is. 1900 is not a leap year, but 2000 is.
 
 def leapyr_checker(year):
-    if year%4!=0:
-        return False
-    elif year%100!=0:
-        return True
-    elif year%400==0:
-        return True
-    else:
-        return False
+    check=False
+    if year%4==0:
+        if year%100!=0:
+            check=True
+        elif year%400==0:
+            check=True
+    return check
 
 
 year=int(input('Enter the year: '))
