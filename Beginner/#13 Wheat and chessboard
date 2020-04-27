@@ -13,4 +13,4 @@
 certain_square=input('Enter the square number you what to find how many grains did it contain: ')
 
 print('There were',f"{2**(int(certain_square)-1):,}",'grains in the square',certain_square)
-print('Total grains:',f"{2**(63):,}")
+print('Total grains:',f"{2**(64)-1:,}")
