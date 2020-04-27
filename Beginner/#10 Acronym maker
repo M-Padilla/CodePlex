@@ -1,0 +1,15 @@
+#Challenge for 15/Apr/2020
+#Convert a phrase to its acronym.
+#Techies love their TLA (Three Letter Acronyms)!
+#Help generate some jargon by writing a program that converts a long name like
+#Portable Network Graphics to its acronym (PNG).
+
+
+def acronym_maker(phrase):
+    acronym=''
+    for word in phrase.split():
+        acronym+=word[0]
+    return acronym
+
+phrase=input('Enter the phrase: ')
+print('Acronym:', acronym_maker(phrase))
