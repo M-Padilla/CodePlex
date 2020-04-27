@@ -10,6 +10,10 @@
 #    A -> U
 
 def rna_transcription(dna_sequence):
+    #The .translate method maps simultaneously some strings to other strings.
+    #The .maketrans method sets the mapping: The first argument are the strings to be replaced,
+    #and the second one are the replacement strings.
+    #The replacement order follows the order in which each character in the string appears.
     rna=dna_sequence.translate(str.maketrans('GCTA','CGAU'))
     return rna
 
