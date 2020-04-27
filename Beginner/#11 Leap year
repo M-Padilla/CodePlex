@@ -19,7 +19,6 @@ def leapyr_checker(year):
 
 year=int(input('Enter the year: '))
 
-
 if leapyr_checker(year)==True:
     print('It is a leap year!')
 else:
