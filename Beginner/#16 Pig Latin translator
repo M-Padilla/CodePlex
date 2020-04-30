@@ -4,6 +4,7 @@ Write function that translates a text to Pig Latin and back.
 English is translated to Pig Latin by taking the first letter of every word,
 moving it to the end of the word and adding ‘ay’.
 “The quick brown fox” becomes “Hetay uickqay rownbay oxfay”.
+If the first letter is a vowel, do not switch it.
 '''
 
 
@@ -12,19 +13,33 @@ def piglatin_translator(text):
 
     '''
     Do the following to the first word:
-    Take the first character of words[0], replace it with a blank and take the second character and capitalize it.
+    
+    Check if the first letter is a vowel: If it is, just append 'ay' at the end. That will be now the updated first word.
+    
+    If not, then take the first character of words[0], replace it with a blank and take the second character and capitalize it.
     Then put the first character of words[0] at the end and append 'ay'.
     That will be now the updated first word.
     '''
     
-    words[0]=words[0].replace(words[0][0],'').replace(words[0][1],words[0][1].upper()) \ 
-              +words[0][0].lower()+'ay'
-
+    if isvowel(words[0][0])==False:
+        words[0]=words[0].replace(words[0][0],'').replace(words[0][1],words[0][1].upper())+words[0][0].lower()+'ay'
+    else:
+        words[0]+='ay'
     
     for i in range(1,len(words)):
-        words[i]=words[i].replace(words[i][0],'')+words[i][0]+'ay'
-        
+        if isvowel(words[i][0])==False:
+            words[i]=words[i].replace(words[i][0],'')+words[i][0]+'ay'
+        else:
+            words[i]+='ay'
+            
     return ' '.join(words)
+
+
+def isvowel(char):
+    if char.lower() in 'aeiou':
+        return True
+    else:
+        return False
 
 
 entry=input('Enter the text in English: ')
