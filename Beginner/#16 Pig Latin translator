@@ -13,7 +13,8 @@ def piglatin_translator(text):
     '''
     Do the following to the first word:
     Take the first character of words[0], replace it with a blank and take the second character and capitalize it.
-    Then put the first character of words[0] at the end and append 'ay'. That will be now the updated first word.
+    Then put the first character of words[0] at the end and append 'ay'.
+    That will be now the updated first word.
     '''
     
     words[0]=words[0].replace(words[0][0],'').replace(words[0][1],words[0][1].upper()) \ 
