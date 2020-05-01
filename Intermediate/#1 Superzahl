@@ -1,0 +1,80 @@
+#Challenge for 04/Apr/2020
+'''
+The player chooses 6 different numbers out of 49.
+A player wins the jackpot when he got all 7 numbers right. Pretty easy to understand I think.
+So now that's the task:
+Get user input: 6 numbers from 1 to 49, each number can only be chosen once!
+1 'Superzahl' from 0-9
+The program: Gets User Input only once!
+Should generate 6 different random numbers from 1-49(each number is only allowed once per draw)
+1 'Superzahl' from 0-9
+After each draw output the numbers which where the same as the user Input.
+Make as many random draws as needed to win with the  user input!
+Accumulate all draws needed and tell the player how many tries he needed
+(how often he would have to play with the numbers chosen to be exact)
+and how much it would have costed(price per draw is 1,25 CryptoSchekel)
+'''
+
+
+
+def input_checker(entry, min_allowed_number, max_allowed_number):
+    global user_picks
+    try:
+        entry=int(entry)
+    except ValueError:
+            print('That\'s not an integer number...')
+    else:
+        if entry<min_allowed_number or entry>max_allowed_number:
+            print('Only integers numbers in the range ', \
+                  min_allowed_number,'-',max_allowed_number,'...',sep='')
+        elif entry in user_picks:
+            print('You already picked that number...')
+        else:
+            user_picks.append(entry)
+            return False
+
+def winner_sequence_generator(number_of_picks, min_allowed_number, max_allowed_number):
+    global winner_sequence
+    winner_sequence=[]
+    possible = list(range(min_allowed_number,max_allowed_number+1))
+    for pick in range(number_of_picks):
+        entry=random.choice(possible)
+        winner_sequence.append(entry)
+        possible.remove(entry)
+    return winner_sequence
+
+import random
+
+user_picks=[]
+
+print('Think of six (6) integer numbers from 1 to 49. You cannot repeat any of them!')
+
+for pick in range(1,7):
+    while True:
+        entry=input('Enter your pick #'+str(pick)+': ')
+        if input_checker(entry,1,49)==False:
+            break
+
+print('Well done! \n')
+print('LET\'S PLAY SUPERZAHL!!!')
+print('Each try costs 1.25 CryptoSchekel, tho...')
+tries=1
+winner=False
+
+##Tengo que incorporar un ciclo que permita seguir iterando hasta obtener el numero ganador
+##Tengo que incorporar un ciclo que luego siga jugando si el usuario quiere seguir jugando tras obtener el numero ganador.
+
+
+while winner==False:
+    winner_sequence_generator(6,1,49)
+    winner=all(pick in winner_sequence  for pick in user_picks)
+    if winner==False:
+            print('Sorry. The winner sequence for try #',str(tries),' was: ',' '.join(map(str, winner_sequence)),sep='')
+            tries+=1
+    else:
+        break
+    
+print('Congrats!!')
+print('You won the superzahl after',f"{tries:,}",'attempts!')
+print('It only costed you',f"{tries*1.25:,}",'CryptoSchekel to taste the sweet flavor of victory')
+print('Hope it was worth it!')
