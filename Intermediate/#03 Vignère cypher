@@ -57,7 +57,7 @@ password=list(input('Enter the password: ').replace(' ','').lower())
 
 task=input('What do you want to do? (E)ncrypt or (D)ecrypt?\n')
 
-if task=='E' or task=='D':
+if task in ('E','D'):
     text=input('Enter text: ')
     print(vignere_cypher(text,password,task))
 else:
