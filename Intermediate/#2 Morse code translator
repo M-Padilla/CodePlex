@@ -1,0 +1,95 @@
+#Challenge for 06/Apr/2020
+'''
+Today's intermediate challange is to write a program that translates input text to morse code and vice versa.
+A .-
+B -...
+C -.-.
+D -..
+E .
+F ..-.
+G --.
+H ....
+I ..
+J .---
+K -.-
+M --
+N -.
+O ---
+P .--.
+Q --.-
+R .-.
+S ...
+T -
+U ..-
+V ...-
+W .--
+X -..-
+Y -.--
+Z --..
+'''
+
+
+import string, re, sys
+
+
+alphabet=list(string.ascii_uppercase)
+morse=['.-','-...','-.-.','-..',\
+       '.','..-.','--.','....',\
+       '..','.---','-.-','.-..',\
+       '--','-.','---','.--.',\
+       '--.-','.-.','...','-',\
+       '..-','...-','.--','-..-',\
+       '-.--','--..']
+
+def morse_to_latin(morse_text):
+    dictionary=dict(zip(morse,alphabet))
+    translation=[]
+    morse_text=morse_text.split('  ')
+    for word in morse_text:
+        word=word.split(' ')
+        translated_word=''
+        for letter in word:
+            translated_word+=dictionary[letter]
+        translation.append(translated_word)
+    return ' '.join(translation)
+            
+
+def latin_to_morse(latin_text):
+    dictionary=dict(zip(alphabet,morse))
+    latin_text=latin_text.upper()
+    translation=[]
+    for letter in latin_text:
+        if letter!=' ':
+            translation.append(dictionary[letter])
+            translation.append(' ')
+        else:
+            translation.append(' ')
+    return ''.join(translation)
+
+
+while True:
+    translation_mode=input("""Select the translation mode:\n
+          M for (M)orse to Latin Alphabet\n
+          L for (L)atin Alphabet to Morse\n
+          Q to (Q)uit the program:\n""")
+    check=True
+    while check:  
+        if translation_mode=='M':
+            text=input("""Enter the morse code text you want to translate to latin.\nUse a single space to separate letters, and double spaces to separate words.\n""")
+            check=re.search("[^.\s-]", text)
+            if not check:
+                print(morse_to_latin(text))
+            else:
+                print('Please, enter a valid text in morse code.')
+        elif translation_mode=='L':
+            text=input('Enter the latin text you want to translate to morse code:\n')
+            check=re.search("[^a-zA-Z\s]", text)
+            if not check:
+                print(latin_to_morse(text))
+            else:
+                print('Please, enter a valid text in latin alphabet.')
+        elif translation_mode=='Q':
+            sys.exit()            
+        else:
+            print('Enter a valid option.')
+            break
