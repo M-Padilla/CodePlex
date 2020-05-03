@@ -1,0 +1,79 @@
+#Challenge for 08/Apr/2020
+'''
+Create the a program for the Vigenère Cipher
+
+The Vigenère cipher works similar like the Caesar cipher but better. You decide a password like 'ab'
+and then repeat this password until you reach the end of your text.
+
+So how to apply a password:
+
+Message: Hello World
+Password: ab
+
+We add the index of the password letter to the current letter, thats all.
+Message:  Hello World
+Password: ababa babab
+Result:   Hflmo Xosle 
+
+The program should be able to encrypt and decrypt with a given password.
+Alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ
+'''
+
+import string
+
+def vignere_encrypt(text,key):
+    text=list(text.split())
+    lower=list(string.ascii_lowercase)
+    key_size=len(key)
+    position_in_text=0
+    encrypted_text=[]
+    for word in text:
+        encrypted_word=''
+        for char in word:
+            M=lower.index(char.lower()) #Looks for the position of the message letter in the alphabet
+            key_index=position_in_text%key_size #Looks for the corresponding letter in the key
+            K=lower.index(password[key_index]) #Looks for the position of the key letter in the alphabet
+            E=lower[(M+K)%26] #Gets the position of the encrypter letter
+            if char.isupper()==True:
+                encrypted_word+=E.upper()
+            else:
+                encrypted_word+=E
+            position_in_text+=1
+        encrypted_text.append(encrypted_word)
+    encrypted_text=' '.join(encrypted_text)
+    return encrypted_text
+
+def vignere_decrypt(text,key):
+    text=list(text.split())
+    lower=list(string.ascii_lowercase)
+    key_size=len(key)
+    position_in_text=0
+    decrypted_text=[]
+    for word in text:
+        decrypted_word=''
+        for char in word:
+            C=lower.index(char.lower()) #Looks for the position of the encrypted letter in the alphabet
+            key_index=position_in_text%key_size #Looks for the corresponding letter in the key
+            K=lower.index(password[key_index]) #Looks for the position of the key letter in the alphabet
+            D=lower[(C-K+26)%26] #Gets the position of the decrypted letter
+            if char.isupper()==True:
+                decrypted_word+=D.upper()
+            else:
+                decrypted_word+=D
+            position_in_text+=1
+        decrypted_text.append(decrypted_word)
+    decrypted_text=' '.join(decrypted_text)
+    return decrypted_text
+
+password=list(input('Enter the password: ').replace(' ','').lower())
+
+task=input('What do you want to do? (E)ncrypt or (D)ecrypt?\n')
+
+if task=='E':
+    text=input('Enter text to encrypt: ')
+    print('ENCRYPTED:',vignere_encrypt(text,password))
+elif task=='D':
+    text=input('Enter text to decrypt: ')
+    print('ENCRYPTED:',vignere_decrypt(text,password)) 
+else:
+    print('Select a valid option.')
