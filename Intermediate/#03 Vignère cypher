@@ -21,59 +21,44 @@ Alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ
 
 import string
 
-def vignere_encrypt(text,key):
+def vignere_cypher(text,key,mode):
     text=list(text.split())
-    lower=list(string.ascii_lowercase)
     key_size=len(key)
     position_in_text=0
-    encrypted_text=[]
+    cypher_text=[]
+    
     for word in text:
-        encrypted_word=''
+        cypher_word=''
+        
         for char in word:
-            M=lower.index(char.lower()) #Looks for the position of the message letter in the alphabet
+            M=string.ascii_lowercase.index(char.lower()) #Looks for the position of the message letter in the alphabet
             key_index=position_in_text%key_size #Looks for the corresponding letter in the key
-            K=lower.index(password[key_index]) #Looks for the position of the key letter in the alphabet
-            E=lower[(M+K)%26] #Gets the position of the encrypter letter
-            if char.isupper()==True:
-                encrypted_word+=E.upper()
-            else:
-                encrypted_word+=E
-            position_in_text+=1
-        encrypted_text.append(encrypted_word)
-    encrypted_text=' '.join(encrypted_text)
-    return encrypted_text
+            K=string.ascii_lowercase.index(key[key_index]) #Looks for the position of the key letter in the alphabet
 
-def vignere_decrypt(text,key):
-    text=list(text.split())
-    lower=list(string.ascii_lowercase)
-    key_size=len(key)
-    position_in_text=0
-    decrypted_text=[]
-    for word in text:
-        decrypted_word=''
-        for char in word:
-            C=lower.index(char.lower()) #Looks for the position of the encrypted letter in the alphabet
-            key_index=position_in_text%key_size #Looks for the corresponding letter in the key
-            K=lower.index(password[key_index]) #Looks for the position of the key letter in the alphabet
-            D=lower[(C-K+26)%26] #Gets the position of the decrypted letter
+            if mode=='E':
+                C=string.ascii_lowercase[(M+K)%26] #Gets the position of the encrypted letter
+            elif mode=='D':
+                C=string.ascii_lowercase[(M-K+26)%26] #Gets the position of the decrypted letter
+          
             if char.isupper()==True:
-                decrypted_word+=D.upper()
+                cypher_word+=C.upper()
             else:
-                decrypted_word+=D
+                cypher_word+=C   
             position_in_text+=1
-        decrypted_text.append(decrypted_word)
-    decrypted_text=' '.join(decrypted_text)
-    return decrypted_text
+            
+        cypher_text.append(cypher_word)
+        
+    cypher_text=' '.join(cypher_text)
+    
+    return cypher_text
+
 
 password=list(input('Enter the password: ').replace(' ','').lower())
 
 task=input('What do you want to do? (E)ncrypt or (D)ecrypt?\n')
 
-if task=='E':
-    text=input('Enter text to encrypt: ')
-    print('ENCRYPTED:',vignere_encrypt(text,password))
-elif task=='D':
-    text=input('Enter text to decrypt: ')
-    print('ENCRYPTED:',vignere_decrypt(text,password)) 
+if task=='E' or task=='D':
+    text=input('Enter text: ')
+    print(vignere_cypher(text,password,task))
 else:
     print('Select a valid option.')
