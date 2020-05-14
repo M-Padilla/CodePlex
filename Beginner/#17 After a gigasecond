@@ -1,0 +1,46 @@
+'''
+Challenge for 12/May/2020
+
+Given a moment(i.e. DD.MM.YYYY hh:mm), determine the moment that would be after a gigasecond has passed.
+A gigasecond is 10^9 (1,000,000,000) seconds.
+'''
+
+from datetime import datetime,timedelta
+import re
+
+
+while True:
+    user_date = input('Enter a valid timestamp, with the format DD.MM.YYYY HH:MM\n')
+    #As the regex is extense, I've used compile to store as string and then use it. The argument re.X is a flag that enables verbose mode,
+    #and provides a nice way to format, separate and comment the regex for improved readability.
+    
+    valid_date_regex=re.compile(r'''[0-3]((?<=0)[1-9]|(?<=[12])\d|(?<=3)[0-1])[.]  #Checks the day format. The first day digit may be 0-3. Then checks the second digit with a look-behind.
+                                                                                    #If the first day digit is 0 or 1, then the following day digit can be any digit (as days go from
+                                                                                    #01 to 09 and from 10 to 19), but if the first digit is 3, then the second digit must be 0 or 1
+                                                                                    #(as days go from 30 to 31). The day format ends with a dot.
+                                                                                    
+                        [01]((?<=0)[1-9]|(?<=1)[0-2])[.]                            #Checks the month format. The first month digit may be 0 or 1. Then checks the second digit with a 
+                                                                                    #look-behind. If the first day digit is 0, then the following month digit can be any digit (as months go from
+                                                                                    #01 to 09), but if the first digit is 1, then the the second digit must be 0 or 2(as months go from 10 to 12)
+                                                                                    
+                        \d\d\d\d                                                    #Checks for year as a zero-padded decimal. A year can go from 0000 to 9999.
+                        
+                        \s                                                          #Checks for the white space between the date and the time.
+                        
+                        [0-2]((?<=[0-1])\d|[0123])[:][0-5]\d''',re.X)               #Checks the hour format (24 hrs). The first hour digit may be 0-2. Then checks the second digit with a
+                                                                                    #look-behind. If the first hour digit is 0 or 1 then the following day digit can be any digit
+                                                                                    #(as hours go from 01 to 09 and from 10 to 19), but if the first digit is 2, the second digit must be
+                                                                                    #0 or 4 (as hours go from 20 to 23). After that it checks for minute format, as minutes can go from 00 to 59
+                                                                                    #All these checks mean that for a given day, the maximum allowable time is 23:59
+
+    isvalid = re.search(valid_date_regex,user_date)
+    if isvalid:
+        try:
+            future_date = datetime.strptime(user_date,'%d.%m.%Y %H:%M') + timedelta(seconds=(10**9))
+            future_date = future_date.strftime('%d.%m.%Y %H:%M:%S')
+            print("After 1 gigasecond:", future_date)
+            break
+        except:
+            #As our regex already takes care of wrong formatting, the only scenarios that would trigger this except is using 29.02 (DD.MM) for a year that is not a leap year
+            #Or using 30.02 or 31.02 (DD.MM) at all.    
+            print('That date does not exist!')
