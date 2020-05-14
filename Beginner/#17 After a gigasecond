@@ -6,7 +6,7 @@ A gigasecond is 10^9 (1,000,000,000) seconds.
 '''
 
 from datetime import datetime,timedelta
-import re
+import re #To ensure correct date format.
 
 
 while True:
@@ -36,8 +36,10 @@ while True:
     isvalid = re.search(valid_date_regex,user_date)
     if isvalid:
         try:
-            future_date = datetime.strptime(user_date,'%d.%m.%Y %H:%M') + timedelta(seconds=(10**9))
-            future_date = future_date.strftime('%d.%m.%Y %H:%M:%S')
+            future_date = datetime.strptime(user_date,'%d.%m.%Y %H:%M') + timedelta(seconds=(10**9)) #strptime is to convert a string in a specified format
+                                                                                                     #to a datetime object. Timedelta is to calculate the datetime
+                                                                                                     #object after 1 gigasecond.
+            future_date = future_date.strftime('%d.%m.%Y %H:%M:%S') #strftime is to convert a datetime object to a string in a specified format
             print("After 1 gigasecond:", future_date)
             break
         except:
