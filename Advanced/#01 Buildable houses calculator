@@ -1,0 +1,107 @@
+'''
+Challenge for 10/Abr/2020
+
+Years after the Ishval Civil War, the Ishvalan refugees have now found a safe place for themselves which is
+a rectangular piece of land, surrounded by fences.
+
+The land can be thought of as a 2d grid which extends N units vertically and M units horizontally. 
+It is divided into N horizontal rows, which are numbered from 1 to N, as you move from top to bottom and into M vertical
+columns numbered from 1 to M, from left to right.
+
+There are X rivers flowing in a horizontal direction, each flowing in a different row and covering the entire row. 
+Similarly, there are Y rivers flowing in a vertical direction, each flowing in a different column and covering the entire column.
+
+The people want to build houses of dimensions S×S on the remaining land.
+
+What is the maximum number of houses of the given dimensions that could be built on the remaining land, 
+such that no part of any house is in a river and no two houses overlap?
+
+Write a function that take as input the x and y value of the grid, the position of the rivers in x and y, 
+the house dimension and return the number of homes that can be made
+
+
+
+In this image you can visualize the input (8, 7, [5], [4, 8], 2, 2) 
+[the X input, the Y input, Horizontal rivers, Vertical rivers, House width, House Height], return: 6
+'''
+
+
+def houses(x_grid, y_grid, hor_rivers, vert_rivers, house_width, house_height):
+
+    searchx,searchy = 0,7
+    hab_zones = [] #Contains height and width of all habitable zones
+    dim_zone_x = [] #Contains: Start and end points along x for a habitable zone
+    dim_zone_y = [] #Contains: Start and end points along y for a habitable zone
+
+    #The following will look for habitable zones by scanning to the right (x) until finding a river or reaching the grid edge
+    #And then scanning up (y) until finding a river or reaching or reaching the grid edge
+
+    ##Look for the widths of every habitable zone
+    while searchx < x_grid:#Stay inside the grid along x
+        
+        #Let's find a starting point in x for a habitable zone
+        searchx += 1 #Move 1 cell to the right
+
+        ##Look for a starting point along x for a habitable zone
+        while searchx <= x_grid: #Stay inside the grid along x
+            if searchx not in vert_rivers:
+                #If the x point is not a river or outside the grid, then that's a starting point along x for this zone
+                dim_zone_x.append(searchx)
+                break
+            else:
+                searchx += 1 #Keep moving to the right.
+
+        ##Look for an end point along x for a habitable zone
+        while searchx not in vert_rivers and searchx <= x_grid: #Stay inside the grid along x or reach a river
+            searchx += 1 #Traverse the grid along x until finding an end point along x
+
+        dim_zone_x.append(searchx) #Now you have the start and end points along x for the habitable zone.
+        #Simplify the array by calculating the width from the start and end points, only storing the width.
+        dim_zone_x[-1] = dim_zone_x[-1]-dim_zone_x[-2] #Find the width of the habitable zone
+        dim_zone_x.pop(-2) 
+    
+
+    ##Look for the heights of every habitable zone
+    while searchy > 0: #Stay inside the grid along y
+        ##Look for a starting point along y for a habitable zone
+        while searchy > 0: #Stay inside the grid along y
+            if searchy not in hor_rivers:
+                #If the y point is not a river or outside the grid, then that's a starting point along y for this zone
+                dim_zone_y.append(searchy)
+                break
+            else:
+                searchy -= 1 #Keep moving up
+                
+        ##Now look for a end point along y for a habitable zone    
+        while searchy not in hor_rivers and searchy>0: #Stay inside the grid along y or reach a river
+            searchy -= 1 #Traverse the grid upward until finding an end point along y
+
+        dim_zone_y.append(searchy) #Now you have the start and end points along y for the habitable zone.
+        #Simplify the array by calculating the height from the start and end points, only storing the height.
+        dim_zone_y[-1] = dim_zone_y[-2]-dim_zone_y[-1] #Find the height of the habitable zone
+        dim_zone_y.pop(-2)
+
+
+    ##Generate habitable zones by calculating area:
+    for width in dim_zone_x:
+        for height in dim_zone_y:
+            hab_zones.append([ width, height])
+
+
+    house_area = house_width*house_height #Calculate area used by a single house
+    houses_built = 0 #Initialize counter for total buildable houses across all habitable zones
+
+
+    ##Calculate how many houses across all habitable zones
+    for zone in hab_zones: #For every habitable zone
+        if zone[0] >= house_width and zone[1] >= house_height: #Check if a habitable zone has enough height and width to build at least one house
+            #Get how many houses could fit given the habitable zone's width and how many houses could fit given the habitable zone's height.
+            houses_built += (zone[0]//house_width) * (zone[1]//house_height)
+            #By multiplying them, it finds how many houses could fit given the habitable zone's area
+                                                                                         
+    return houses_built
+
+
+
+map_data = (8, 7, [5], [4,8], 2, 2)
+print('Buildable houses:', houses(map_data[0],map_data[1],map_data[2],map_data[3],map_data[4],map_data[5]))
