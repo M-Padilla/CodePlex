@@ -19,7 +19,7 @@ such that no part of any house is in a river and no two houses overlap?
 Write a function that take as input the x and y value of the grid, the position of the rivers in x and y, 
 the house dimension and return the number of homes that can be made
 
-
+https://codechef_shared.s3.amazonaws.com/download/HYC/External_contest_images/DCOD2019/image6.png
 
 In this image you can visualize the input (8, 7, [5], [4, 8], 2, 2) 
 [the X input, the Y input, Horizontal rivers, Vertical rivers, House width, House Height], return: 6
