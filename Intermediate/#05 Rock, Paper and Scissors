@@ -1,0 +1,55 @@
+'''
+Challenge for 31/May/2020
+
+Create a function which simulates the game "rock, paper, scissors". The function takes the input of both players (rock, paper or scissors),
+first parameter from first player, second from second player. The function returns the result as such:
+
+    "Player 1 wins"
+    "Player 2 wins"
+    "TIE" (if both inputs are the same)
+
+The rules of rock, paper, scissors, if not known:
+    Both players have to say either "rock", "paper" or "scissors" at the same time.
+    Rock beats scissors, paper beats rock, scissors beat paper.
+    
+Bonus: Let it play against itself 100 Times and determine the winner
+'''
+
+
+def win_check(player1_pick,player2_pick):
+#Check for the result of a play.
+    victory_dict = {'rock': 'paper', 'paper': 'scissors', 'scissors': 'rock'} #Contains which option can defeat another.
+
+    if player1_pick == player2_pick:
+        result = 'Tie.'
+    elif player2_pick == victory_dict[player1_pick]:
+        result = 'Player 2 wins.'
+    else:
+        result = 'Player 1 wins.'
+
+    win_counter(result)
+    return player1_pick, player2_pick, result
+
+
+def win_counter(result):
+#Update victory and ties counter
+    global counter
+    
+    if result == 'Tie.':
+        counter[2] += 1
+    elif result == 'Player 2 wins.':
+        counter[1] += 1
+    else:
+        counter[0] += 1    
+    
+
+import random
+
+options = ('rock','paper','scissors')
+counter = [0,0,0]
+
+for game in range(100):
+    result = win_check(random.choice(options),random.choice(options))
+    print(f"Player 1 picked {result[0]}. Player 2 picked {result[1]}. {result[2]}")
+
+print(f"\n{'Player 1 wins!' if counter[0]>counter[1] else 'Player 2 wins!' if counter[1]>counter[0] else 'It is a draw!'}")
