@@ -1,0 +1,14 @@
+'''
+Challenge for 19/Jun/2020
+
+Write a function that combines two lists by alternatingly taking elements,
+e.g. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
+'''
+
+
+def combinator(list1,list2):
+    combined = []
+    for element in range(min(len(list1),len(list2))):
+        combined.append(list1[element])
+        combined.append(list2[element])
+    return combined
