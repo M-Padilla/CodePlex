@@ -1,0 +1,62 @@
+'''
+Challenge for 21/Jun/2020
+
+This time we want to write calculations using functions and get the results. Let's have a look at some examples:
+
+seven(times(five())) # must return 35
+four(plus(nine())) # must return 13
+eight(minus(three())) # must return 5
+six(divided_by(two())) # must return 3
+
+
+Requirements:
+
+* There must be a function for each number from 0 ("zero") to 9 ("nine")
+* There must be a function for each of the following mathematical operations: plus, minus, times, dividedBy (divided_by in Ruby and Python)
+* Each calculation consist of exactly one operation and two numbers
+* The most outer function represents the left operand, the most inner function represents the right operand
+* Divison should be integer division. For example, this should return 2, not 2.666666...:
+
+eight(divided_by(three()))
+'''
+
+#Defining number functions
+def zero(operator=None): return 0 if not operator else operator(0)
+def one(operator=None): return 1 if not operator else operator(1)
+def two(operator=None): return 2 if not operator else operator(2)
+def three(operator=None): return 3 if not operator else operator(3)
+def four(operator=None): return 4 if not operator else operator(4)
+def five(operator=None): return 5 if not operator else operator(5)
+def six(operator=None): return 6 if not operator else operator(6)
+def seven(operator=None): return 7 if not operator else operator(7)
+def eight(operator=None): return 8 if not operator else operator(8)
+def nine(operator=None): return 9 if not operator else operator(9)
+
+#Defining operators functions
+def plus(right_operand): return lambda left_operand: left_operand + right_operand
+def minus(right_operand): return lambda left_operand: left_operand - right_operand
+def times(right_operand): return lambda left_operand: left_operand * right_operand
+def divided_by(right_operand): return lambda left_operand: left_operand // right_operand
+
+'''
+Lamnbda functions are anonymous functions. It basically conveys a mapping and it can be carried
+to higher order functions. In eight(plus(one())), the program starts by the one() function.
+As it contains no arguments, the one function returns 1.
+
+Next, we got the plus(one()), and taking into account the previous result, we'd have plus(1). 
+
+The plus() definition basically take the right operand (R) and returns L ↦ L + R
+In that sense, plus(1) returns the function L ↦ L + 1, with L still unknown.
+
+Then, following that, we got eight(plus(one())), and replacing previous results we can see
+we have eight(L ↦ L + 1) now. The eight function would just return 8 if provided no arguments
+(as in eight()) but in this case the argument operator = L ↦ L + 1 is given, and the instruction
+operator(8) is executed.
+
+In this case operator(8) is equal to 8 ↦ 8 + 1 and returns 9, the final result.
+
+NOTE: The transitioning of the code so that each function has only one argument is called 'currying'.
+'''
+
+
+print(eight(plus(one())))
